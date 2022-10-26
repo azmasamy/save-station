@@ -1,4 +1,4 @@
-const CONTRACT_NAME = 'abcdefg.testnet';
+const CONTRACT_NAME = 'recover-acc-fe.testnet';
 
 function environment(env) {
   switch (env) {

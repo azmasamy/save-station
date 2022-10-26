@@ -1,13 +1,23 @@
 import React, { useEffect } from 'react';
 
-const Reload = () => {
+const Reload = ({ acc, wallet }) => {
   useEffect(() => {
-    // wait for 3 seconds and reload the page
+    // get 'account_id' from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const accountId = urlParams.get('account_id');
+
+    const kpJSON = window.localStorage.getItem('myKeyPair');
+    window.localStorage.setItem(
+      `near-api-js:keystore:${accountId}:testnet`,
+      kpJSON
+    );
+
+    // wait for 1 seconds and reload the page
     setTimeout(() => {
       window.location.replace(
         window.location.origin + window.location.pathname
       );
-    }, 1500);
+    }, 1000);
   }, []);
 
   return (
