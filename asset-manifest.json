@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/react-recovery-key/static/css/main.cb13ff3b.css",
+    "main.js": "/react-recovery-key/static/js/main.2588f8ae.js",
+    "static/media/password.png": "/react-recovery-key/static/media/password.f9af950ef3ef6815e79d.png",
+    "static/media/near-recovery-key.wasm": "/react-recovery-key/static/media/near-recovery-key.77bc6192a0f43ffb6117.wasm",
+    "index.html": "/react-recovery-key/index.html",
+    "main.cb13ff3b.css.map": "/react-recovery-key/static/css/main.cb13ff3b.css.map",
+    "main.2588f8ae.js.map": "/react-recovery-key/static/js/main.2588f8ae.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cb13ff3b.css",
+    "static/js/main.2588f8ae.js"
+  ]
+}
