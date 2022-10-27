@@ -6,7 +6,9 @@ import wasm from '../wasm_files/near-recovery-key.wasm';
 
 const Profile = ({ login, acc, nearConnection }) => {
   const [deployTxt, setDeployTxt] = useState('Deploy');
-  const [deployed, setDeployed] = useState(false);
+  const [deployedState, setDeployedState] = useState('');
+
+  const [flowState, setFlowState] = useState('begin');
 
   const [recTxt, setRecTxt] = useState('Update Recovery Data');
 
@@ -29,7 +31,8 @@ const Profile = ({ login, acc, nearConnection }) => {
         const wasmUint8Array = new Uint8Array(wasmArrayBuffer);
         const response = await nearAccount.deployContract(wasmUint8Array);
         console.log(response);
-        setDeployed(true);
+        setDeployedState('ours');
+        setFlowState('deployed');
         setDeployTxt('Deployed ✅');
         toast.success(`Contract deployed successfully`, {
           position: 'bottom-right',
@@ -60,7 +63,7 @@ const Profile = ({ login, acc, nearConnection }) => {
     setRecTxt('Setting...');
     // convert recDate to number of seconds
     const recDateSecs = Math.floor(
-      new Date(recDate).getTime() / 1000
+      new Date(recDate || '2022-10-28').getTime() / 1000
     ).toString();
 
     const nearAccount = await nearConnection.account();
@@ -114,57 +117,62 @@ const Profile = ({ login, acc, nearConnection }) => {
       });
   };
 
+  // Get Current State
   useEffect(() => {
-    const getRecoveryData = async () => {
-      const nearAccount = await nearConnection.account();
-      nearAccount.accountId = acc.accountId;
+    if (deployedState === 'ours') {
+      const getRecoveryData = async () => {
+        const nearAccount = await nearConnection.account();
+        nearAccount.accountId = acc.accountId;
 
-      nearAccount
-        .viewFunction(acc.accountId, 'viewRecoveryState', {})
-        .then((res) => {
-          setRecData(res);
-          setRecAcc(res.recoveryAccount);
-          setRecDate(
-            new Date(parseInt(res.recoveryDate) * 1000)
-              .toISOString()
-              .split('T')[0]
-          );
-        })
-        .catch((err) => {});
-    };
+        nearAccount
+          .viewFunction(acc.accountId, 'viewRecoveryState', {})
+          .then((res) => {
+            setRecData(res);
+            setRecAcc(res?.recoveryAccount);
+            setRecDate(
+              new Date(parseInt(res?.recoveryDate || 1666828800) * 1000)
+                .toISOString()
+                .split('T')[0]
+            );
+          })
+          .catch((err) => {});
+      };
 
-    const checkDeployed = async () => {
-      const nearAccount = await nearConnection.account();
-      nearAccount.accountId = acc.accountId;
-
-      nearAccount
-        .viewFunction(acc.accountId, 'getCurrentTimestamp', {})
-        .then((res) => {
-          setDeployed(true);
-        })
-        .catch((err) => {
-          setDeployed(false);
-        });
-    };
-
-    try {
-      getRecoveryData();
-    } catch (err) {
-      console.log(err);
+      try {
+        getRecoveryData();
+      } catch (err) {
+        console.log(err);
+      }
     }
+  }, [deployedState, acc, nearConnection]);
 
-    try {
+  useEffect(() => {
+    if (acc) setFlowState('signed');
+    else setFlowState('begin');
+
+    if (acc) {
+      const checkDeployed = async () => {
+        const response = await nearConnection.connection.provider.query({
+          request_type: 'view_account',
+          finality: 'final',
+          account_id: acc?.accountId,
+        });
+
+        if (response.code_hash === '11111111111111111111111111111111') {
+          setDeployedState('empty');
+        } else if (
+          response.code_hash === 'EZSuShZDU3Vbzanwt17xdfqRoWdJnqzZpkAYNN8AqhN7'
+        ) {
+          setDeployedState('ours');
+          setFlowState('deployed');
+        } else {
+          setDeployedState('other');
+        }
+      };
+
       checkDeployed();
-    } catch (err) {
-      setDeployed(false);
     }
   }, [acc, nearConnection]);
-
-  // setRecoveryState(recoveryAccount: string, recoveryDate: u64)
-  // deploy wasm
-  // set settings:
-  //    - date
-  //    - which recovery account
 
   return (
     <main className='max-w-screen-lg px-6 py-8 md:px-8 md:py-16 mx-auto relative'>
@@ -184,7 +192,7 @@ const Profile = ({ login, acc, nearConnection }) => {
               </h1>
               <p>
                 {
-                  new Date(recData?.recoveryDate * 1000)
+                  new Date((recData?.recoveryDate || 1666828800) * 1000)
                     .toISOString()
                     .split('T')[0]
                 }
@@ -210,7 +218,7 @@ const Profile = ({ login, acc, nearConnection }) => {
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-              Deploy the Contract
+              Sign in with NEAR
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -227,7 +235,7 @@ const Profile = ({ login, acc, nearConnection }) => {
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-              Add a Recovery Account
+              Deploy the Contract
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
@@ -244,7 +252,7 @@ const Profile = ({ login, acc, nearConnection }) => {
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-              Set a Recovery Date
+              Set Recovery Details
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -254,26 +262,62 @@ const Profile = ({ login, acc, nearConnection }) => {
         </li>
       </ol>
       <hr className='mt-20 dark:opacity-30 ' />
-      {acc ? (
-        <>
-          <section className='flex flex-col max-w-2xl mx-auto my-14'>
-            <h2 className='mb-6 text-4xl font-bold text-center'>
-              Deploy the Contract
-            </h2>
-            <button
-              disabled={deployed || recData}
-              className='bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
-              onClick={deployRecoveryKeyContract}>
-              {deployed || recData ? 'Contract Deployed' : deployTxt}
-            </button>
-          </section>
-          <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' />
-          <section className='mt-12 mb-6'>
-            <h2 className='mt-6 mb-10 text-4xl font-bold text-center'>
-              Recovery Account & Date
-            </h2>
+      <section className='flex flex-col max-w-2xl mx-auto my-14'>
+        <h2 className='text-4xl font-bold text-center'>1. Sign in with NEAR</h2>
+        <button
+          disabled={flowState !== 'begin'}
+          className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+          onClick={() => {
+            setFlowState('signed');
+            login();
+          }}>
+          {flowState === 'begin' ? 'Sign in with NEAR' : 'Signed In'}
+        </button>
+      </section>
+      <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' />
+      <section className='flex flex-col max-w-2xl mx-auto my-14'>
+        <h2 className='mb-6 text-4xl font-bold text-center'>
+          2. Deploy the Contract
+        </h2>
+        {flowState !== 'begin' && (
+          <>
+            {deployedState === 'other' && (
+              <div
+                className='p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800'
+                role='alert'>
+                <span className='font-medium'>Warning!</span> This account
+                already has a deployed contract, deploying the recovery contract
+                will delete the old one.
+              </div>
+            )}
+            {flowState !== 'begin' && (
+              <button
+                disabled={deployedState === 'ours'}
+                className='bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+                onClick={deployRecoveryKeyContract}>
+                {deployedState === 'ours' ? 'Contract Deployed' : deployTxt}
+              </button>
+            )}
+          </>
+        )}
+      </section>
+      <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' />
+      <section className='mt-12 mb-6 max-w-2xl mx-auto'>
+        <h2 className='mt-6 mb-10 text-4xl font-bold text-center'>
+          3. Set Recovery Details
+        </h2>
+        {flowState === 'deployed' && (
+          <>
+            {deployedState !== 'ours' && (
+              <div
+                className='p-4 mb-4 text-sm text-primary-700 bg-primary-100 rounded-lg dark:bg-primary-200 dark:text-primary-800'
+                role='alert'>
+                Please deploy the contract first, to be able to add the recovery
+                details.
+              </div>
+            )}
             <form className='flex flex-col gap-4 max-w-2xl mx-auto'>
-              <div className='flex flex-row gap-4'>
+              <div className='flex flex-col sm:flex-row gap-4'>
                 <div className='w-full'>
                   <label
                     htmlFor='account'
@@ -307,6 +351,7 @@ const Profile = ({ login, acc, nearConnection }) => {
                 </div>
               </div>
               <button
+                disabled={deployedState !== 'ours'}
                 type='submit'
                 className='bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
                 onClick={(e) => {
@@ -316,22 +361,9 @@ const Profile = ({ login, acc, nearConnection }) => {
                 {recTxt}
               </button>
             </form>
-          </section>
-        </>
-      ) : (
-        <>
-          <section className='flex flex-col max-w-2xl mx-auto my-20'>
-            <h2 className='mb-6 text-4xl font-bold text-center'>
-              Connect your Account
-            </h2>
-            <button
-              className='bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-sm rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
-              onClick={login}>
-              Login with NEAR
-            </button>
-          </section>
-        </>
-      )}
+          </>
+        )}
+      </section>
     </main>
   );
 };

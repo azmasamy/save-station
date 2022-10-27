@@ -16,7 +16,7 @@ import { ToastContainer } from 'react-toastify';
 window.Buffer = window.Buffer || require('buffer').Buffer;
 
 function App({ contract, currentUser, wallet, nearConnection }) {
-  const signIn = () => {
+  const signInFullAccess = () => {
     const myKeyPair = KeyPairEd25519.fromRandom();
 
     window.localStorage.setItem('myKeyPair', myKeyPair.toString());
@@ -39,7 +39,7 @@ function App({ contract, currentUser, wallet, nearConnection }) {
     <HashRouter>
       <Flowbite>
         <div className='app-bg dark:bg-none min-h-screen dark:bg-gray-900 text-black dark:text-white relative'>
-          <Navbar login={signIn} logout={signOut} acc={currentUser} />
+          <Navbar login={signInFullAccess} logout={signOut} acc={currentUser} />
           <Routes>
             <Route path='/' exact element={<Home />} />
             <Route
@@ -47,7 +47,7 @@ function App({ contract, currentUser, wallet, nearConnection }) {
               exact
               element={
                 <Profile
-                  login={signIn}
+                  login={signInFullAccess}
                   acc={currentUser}
                   nearConnection={nearConnection}
                 />

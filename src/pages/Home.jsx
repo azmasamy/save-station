@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import passImg from '../imgs/password.png';
 
 const Home = () => {
   return (
@@ -35,7 +34,7 @@ const Home = () => {
           </div>
         </div>
         <img
-          src={passImg}
+          src='https://res.cloudinary.com/omar45/image/upload/v1666775913/NEAR/password_save.png'
           alt='password lock'
           className='bounce-animation w-96 aspect-square z-[2]'
         />
