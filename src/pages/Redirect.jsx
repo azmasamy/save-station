@@ -14,9 +14,7 @@ const Reload = ({ acc, wallet }) => {
 
     // wait for 1 seconds and reload the page
     setTimeout(() => {
-      window.location.replace(
-        window.location.origin + window.location.pathname
-      );
+      window.location.replace(window.location.origin + '/#/profile/');
     }, 1000);
   }, []);
 

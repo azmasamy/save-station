@@ -24,7 +24,7 @@ function App({ contract, currentUser, wallet, nearConnection }) {
     const link = `https://wallet.testnet.near.org/login/
       ?referrer=http://localhost:3000
       &success_url=${window.location.origin + '/%23%0A/redirect/'}
-      &failure_url=${'https://google.com/'}
+      &failure_url=${window.location.origin + '/%23%0A/redirect/'}
       &public_key=${myKeyPair.getPublicKey().toString()}`;
 
     window.location.href = link;
@@ -39,7 +39,7 @@ function App({ contract, currentUser, wallet, nearConnection }) {
     <HashRouter>
       <Flowbite>
         <div className='app-bg dark:bg-none min-h-screen dark:bg-gray-900 text-black dark:text-white relative'>
-          <Navbar login={signInFullAccess} logout={signOut} acc={currentUser} />
+          <Navbar logout={signOut} acc={currentUser} />
           <Routes>
             <Route path='/' exact element={<Home />} />
             <Route
@@ -47,7 +47,8 @@ function App({ contract, currentUser, wallet, nearConnection }) {
               exact
               element={
                 <Profile
-                  login={signInFullAccess}
+                  wallet={wallet}
+                  loginFull={signInFullAccess}
                   acc={currentUser}
                   nearConnection={nearConnection}
                 />

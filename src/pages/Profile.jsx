@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { getBlob, ref } from 'firebase/storage';
 
+import { storage } from '../utils/firebase';
 import { toast } from 'react-toastify';
 import { transactions } from 'near-api-js';
-import wasm from '../wasm_files/near-recovery-key.wasm';
 
-const Profile = ({ login, acc, nearConnection }) => {
+// import wasm from '../wasm_files/near-recovery-key.wasm';
+
+const Profile = ({ loginFull, acc, nearConnection }) => {
   const [deployTxt, setDeployTxt] = useState('Deploy');
   const [deployedState, setDeployedState] = useState('');
 
@@ -24,26 +27,50 @@ const Profile = ({ login, acc, nearConnection }) => {
     const nearAccount = await nearConnection.account();
     nearAccount.accountId = acc.accountId;
 
-    fetch(wasm)
-      .then((r) => r.blob())
-      .then(async (blob) => {
-        const wasmArrayBuffer = await blob.arrayBuffer();
-        const wasmUint8Array = new Uint8Array(wasmArrayBuffer);
-        const response = await nearAccount.deployContract(wasmUint8Array);
-        console.log(response);
-        setDeployedState('ours');
-        setFlowState('deployed');
-        setDeployTxt('Deployed ✅');
-        toast.success(`Contract deployed successfully`, {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+    const wasmRef = ref(
+      storage,
+      'gs://save-station.appspot.com/near-recovery-key.wasm'
+    );
+
+    getBlob(wasmRef).then(async (wasm) => {
+      const wasmArrayBuffer = await wasm.arrayBuffer();
+      const wasmUint8Array = new Uint8Array(wasmArrayBuffer);
+      const response = await nearAccount.deployContract(wasmUint8Array);
+      console.log(response);
+      setDeployedState('ours');
+      setFlowState('deployed');
+      setDeployTxt('Deployed ✅');
+      toast.success(`Contract deployed successfully`, {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
+    });
+
+    // fetch(wasm)
+    //   .then((r) => r.blob())
+    //   .then(async (blob) => {
+    //     const wasmArrayBuffer = await blob.arrayBuffer();
+    //     const wasmUint8Array = new Uint8Array(wasmArrayBuffer);
+    //     const response = await nearAccount.deployContract(wasmUint8Array);
+    //     console.log(response);
+    //     setDeployedState('ours');
+    //     setFlowState('deployed');
+    //     setDeployTxt('Deployed ✅');
+    //     toast.success(`Contract deployed successfully`, {
+    //       position: 'bottom-right',
+    //       autoClose: 5000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     });
+    //   });
   };
 
   const setRecoveryData = async () => {
@@ -218,7 +245,8 @@ const Profile = ({ login, acc, nearConnection }) => {
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-              Sign in with NEAR
+              Sign in with NEAR{' '}
+              <span>{flowState !== 'begin' ? '✅' : '⏳'}</span>
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -235,7 +263,13 @@ const Profile = ({ login, acc, nearConnection }) => {
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-              Deploy the Contract
+              Deploy the Contract{' '}
+              <span>
+                {(flowState === 'deployed' && deployedState === 'ours') ||
+                flowState === 'deployed'
+                  ? '✅'
+                  : '⏳'}
+              </span>
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
@@ -252,7 +286,7 @@ const Profile = ({ login, acc, nearConnection }) => {
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-              Set Recovery Details
+              Set Recovery Details <span>{recData ? '✅' : '⏳'}</span>
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -269,7 +303,7 @@ const Profile = ({ login, acc, nearConnection }) => {
           className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
           onClick={() => {
             setFlowState('signed');
-            login();
+            loginFull();
           }}>
           {flowState === 'begin' ? 'Sign in with NEAR' : 'Signed In'}
         </button>
