@@ -58,7 +58,11 @@ function App({ contract, currentUser, wallet, nearConnection }) {
               path='/recover'
               exact
               element={
-                <Recover acc={currentUser} nearConnection={nearConnection} />
+                <Recover
+                  acc={currentUser}
+                  wallet={wallet}
+                  nearConnection={nearConnection}
+                />
               }
             />
             <Route

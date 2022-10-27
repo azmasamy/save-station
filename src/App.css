@@ -6,6 +6,10 @@
   --toastify-toast-width: clamp(20rem, 80vw, 25rem) !important;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 *,
 *::before,
 *::after {
