@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import Profile from './pages/Profile';
 import Recover from './pages/Recover';
 import Redirect from './pages/Redirect';
+import Redirect2Recover from './pages/Redirect2Recover';
 import { ToastContainer } from 'react-toastify';
 
 window.Buffer = window.Buffer || require('buffer').Buffer;
@@ -69,6 +70,11 @@ function App({ contract, currentUser, wallet, nearConnection }) {
               path='/redirect'
               exact
               element={<Redirect acc={currentUser} wallet={wallet} />}
+            />
+            <Route
+              path='/redirect2'
+              exact
+              element={<Redirect2Recover acc={currentUser} wallet={wallet} />}
             />
           </Routes>
           <ToastContainer

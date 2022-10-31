@@ -203,37 +203,6 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
 
   return (
     <main className='max-w-screen-lg px-6 py-8 md:px-8 md:py-16 mx-auto relative'>
-      {recData && (
-        <div className='mb-12 p-4 border-2 border-slate-500 dark:border-slate-700 rounded-xl bg-white dark:bg-transparent opacity-70'>
-          <h2 className='mb-4 text-4xl font-bold text-center'>Current State</h2>
-          <div className='flex flex-col sm:flex-row items-center text-center '>
-            <div className='w-full border-b-2 sm:border-r-2 sm:border-b-0 border-slate-600 dark:border-slate-400 p-4'>
-              <h1 className='text-xl font-semibold text-center'>
-                Recovery Account
-              </h1>
-              <p>{recData?.recoveryAccount}</p>
-            </div>
-            <div className='w-full border-b-2 sm:border-r-2 sm:border-b-0 border-slate-600 dark:border-slate-400 p-4'>
-              <h1 className='text-xl font-semibold text-center'>
-                Recovery Date
-              </h1>
-              <p>
-                {
-                  new Date((recData?.recoveryDate || 1666828800) * 1000)
-                    .toISOString()
-                    .split('T')[0]
-                }
-              </p>
-            </div>
-            <div className='w-full p-4 pb-1 sm:p-4'>
-              <h1 className='text-xl font-semibold text-center'>
-                is Recovered?
-              </h1>
-              <p>{recData?.isRecovered}</p>
-            </div>
-          </div>
-        </div>
-      )}
       <h2 className='mb-10 text-4xl font-bold text-center'>How it works</h2>
       <ol className='items-center md:flex'>
         <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
@@ -298,22 +267,24 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
       <hr className='mt-20 dark:opacity-30 ' />
       <section className='flex flex-col max-w-2xl mx-auto my-14'>
         <h2 className='text-4xl font-bold text-center'>1. Sign in with NEAR</h2>
-        <button
-          disabled={flowState !== 'begin'}
-          className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
-          onClick={() => {
-            setFlowState('signed');
-            loginFull();
-          }}>
-          {flowState === 'begin' ? 'Sign in with NEAR' : 'Signed In'}
-        </button>
+        {flowState === 'begin' && (
+          <button
+            disabled={flowState !== 'begin'}
+            className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+            onClick={() => {
+              setFlowState('signed');
+              loginFull();
+            }}>
+            {flowState === 'begin' ? 'Sign in with NEAR' : 'Signed In'}
+          </button>
+        )}
       </section>
       <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' />
       <section className='flex flex-col max-w-2xl mx-auto my-14'>
         <h2 className='mb-6 text-4xl font-bold text-center'>
           2. Deploy the Contract
         </h2>
-        {flowState !== 'begin' && (
+        {flowState === 'signed' && (
           <>
             {deployedState === 'other' && (
               <div
@@ -324,14 +295,12 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
                 will delete the old one.
               </div>
             )}
-            {flowState !== 'begin' && (
-              <button
-                disabled={deployedState === 'ours'}
-                className='bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
-                onClick={deployRecoveryKeyContract}>
-                {deployedState === 'ours' ? 'Contract Deployed' : deployTxt}
-              </button>
-            )}
+            <button
+              disabled={deployedState === 'ours'}
+              className='bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+              onClick={deployRecoveryKeyContract}>
+              {deployedState === 'ours' ? 'Contract Deployed' : deployTxt}
+            </button>
           </>
         )}
       </section>
@@ -342,6 +311,39 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
         </h2>
         {flowState === 'deployed' && (
           <>
+            {recData && (
+              <div className='mb-6 p-4 border-2 border-slate-500 dark:border-slate-700 rounded-xl bg-white dark:bg-transparent opacity-70'>
+                <h2 className='mb-4 text-4xl font-bold text-center'>
+                  Current State
+                </h2>
+                <div className='flex flex-col sm:flex-row items-center text-center justify-between w-full'>
+                  <div className='border-b-2 sm:border-b-0 border-slate-600 dark:border-slate-400 p-4'>
+                    <h1 className='text-xl font-semibold text-center'>
+                      Recovery Account
+                    </h1>
+                    <p>{recData?.recoveryAccount}</p>
+                  </div>
+                  <div className='border-b-2 sm:border-b-0 border-slate-600 dark:border-slate-400 p-4'>
+                    <h1 className='text-xl font-semibold text-center'>
+                      Recovery Date
+                    </h1>
+                    <p>
+                      {
+                        new Date((recData?.recoveryDate || 1666828800) * 1000)
+                          .toISOString()
+                          .split('T')[0]
+                      }
+                    </p>
+                  </div>
+                  <div className='p-4 pb-1 sm:p-4'>
+                    <h1 className='text-xl font-semibold text-center'>
+                      is Recovered?
+                    </h1>
+                    <p>{recData?.isRecovered}</p>
+                  </div>
+                </div>
+              </div>
+            )}
             {deployedState !== 'ours' && (
               <div
                 className='p-4 mb-4 text-sm text-primary-700 bg-primary-100 rounded-lg dark:bg-primary-200 dark:text-primary-800'
