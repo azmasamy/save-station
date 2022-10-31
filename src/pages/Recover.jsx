@@ -200,60 +200,67 @@ const Recover = ({ wallet, acc, nearConnection }) => {
         </li>
       </ol>
       <hr className='mt-20 dark:opacity-30 ' />
-      <section className='flex flex-col max-w-2xl mx-auto my-14'>
-        <h2 className='text-4xl font-bold text-center'>1. Login to Account</h2>
-        {flowState === 'begin' && (
-          <form className='mt-6 flex flex-col gap-4 max-w-2xl w-full mx-auto'>
-            <div className='flex flex-row gap-4'>
-              <div className='w-full'>
-                <label
-                  htmlFor='account'
-                  className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'>
-                  Account ID
-                </label>
-                <input
-                  type='text'
-                  id='account'
-                  className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'
-                  placeholder='test.testnet'
-                  required=''
-                  onChange={(e) => setAccountID(e.target.value)}
-                  value={accountID}
-                />
+      {flowState === 'begin' && (
+        <>
+          <section className='flex flex-col max-w-2xl mx-auto my-14'>
+            <h2 className='text-4xl font-bold text-center'>Login to Account</h2>
+            <form className='mt-6 flex flex-col gap-4 max-w-2xl w-full mx-auto'>
+              <div className='flex flex-row gap-4'>
+                <div className='w-full'>
+                  <label
+                    htmlFor='account'
+                    className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'>
+                    Account ID
+                  </label>
+                  <input
+                    type='text'
+                    id='account'
+                    className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500'
+                    placeholder='test.testnet'
+                    required=''
+                    onChange={(e) => setAccountID(e.target.value)}
+                    value={accountID}
+                  />
+                </div>
               </div>
-            </div>
+              <button
+                type='submit'
+                className='bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+                onClick={(e) => {
+                  e.preventDefault();
+                  login();
+                }}>
+                Login to Account
+              </button>
+            </form>
+          </section>
+        </>
+      )}
+
+      {/* <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' /> */}
+      {flowState === 'signed' && (
+        <>
+          <section className='flex flex-col max-w-2xl mx-auto my-14'>
+            <h2 className='text-4xl font-bold text-center'>
+              Request Recovery{' '}
+            </h2>
             <button
-              type='submit'
-              className='bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
-              onClick={(e) => {
-                e.preventDefault();
-                login();
+              className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+              onClick={() => {
+                recoverAccount();
               }}>
-              Login to Account
+              {btnTxt}
             </button>
-          </form>
-        )}
-      </section>
-      <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' />
-      <section className='flex flex-col max-w-2xl mx-auto my-14'>
-        <h2 className='text-4xl font-bold text-center'>2. Request Recovery </h2>
-        {flowState === 'signed' && (
-          <button
-            className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
-            onClick={() => {
-              recoverAccount();
-            }}>
-            {btnTxt}
-          </button>
-        )}
-      </section>
-      <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' />
-      <section className='flex flex-col max-w-2xl mx-auto my-14'>
-        <h2 className='text-4xl font-bold text-center'>
-          3. Get Recovery Link{' '}
-        </h2>
-        {recLink && (
-          <>
+          </section>
+        </>
+      )}
+      {/* <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' /> */}
+      {recLink && (
+        <>
+          <section className='flex flex-col max-w-2xl mx-auto my-14'>
+            <h2 className='text-4xl font-bold text-center'>
+              Get Recovery Link{' '}
+            </h2>
             <div
               className='mt-6 p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800'
               role='alert'>
@@ -269,9 +276,9 @@ const Recover = ({ wallet, acc, nearConnection }) => {
             >
               {recLink}
             </a>
-          </>
-        )}
-      </section>
+          </section>
+        </>
+      )}
     </main>
   );
 };
