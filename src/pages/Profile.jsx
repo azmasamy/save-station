@@ -265,27 +265,31 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
         </li>
       </ol>
       <hr className='mt-20 dark:opacity-30 ' />
-      <section className='flex flex-col max-w-2xl mx-auto my-14'>
-        <h2 className='text-4xl font-bold text-center'>1. Sign in with NEAR</h2>
-        {flowState === 'begin' && (
-          <button
-            disabled={flowState !== 'begin'}
-            className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
-            onClick={() => {
-              setFlowState('signed');
-              loginFull();
-            }}>
-            {flowState === 'begin' ? 'Sign in with NEAR' : 'Signed In'}
-          </button>
-        )}
-      </section>
-      <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' />
-      <section className='flex flex-col max-w-2xl mx-auto my-14'>
-        <h2 className='mb-6 text-4xl font-bold text-center'>
-          2. Deploy the Contract
-        </h2>
-        {flowState === 'signed' && (
-          <>
+      {flowState === 'begin' && (
+        <>
+          <section className='flex flex-col max-w-2xl mx-auto my-14'>
+            <h2 className='text-4xl font-bold text-center'>
+              Sign in with NEAR
+            </h2>
+            <button
+              disabled={flowState !== 'begin'}
+              className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+              onClick={() => {
+                setFlowState('signed');
+                loginFull();
+              }}>
+              {flowState === 'begin' ? 'Sign in with NEAR' : 'Signed In'}
+            </button>
+          </section>
+        </>
+      )}
+      {/* <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' /> */}
+      {flowState === 'signed' && (
+        <>
+          <section className='flex flex-col max-w-2xl mx-auto my-14'>
+            <h2 className='mb-6 text-4xl font-bold text-center'>
+              Deploy the Contract
+            </h2>
             {deployedState === 'other' && (
               <div
                 className='p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800'
@@ -301,16 +305,16 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
               onClick={deployRecoveryKeyContract}>
               {deployedState === 'ours' ? 'Contract Deployed' : deployTxt}
             </button>
-          </>
-        )}
-      </section>
-      <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' />
-      <section className='mt-12 mb-6 max-w-2xl mx-auto'>
-        <h2 className='mt-6 mb-10 text-4xl font-bold text-center'>
-          3. Set Recovery Details
-        </h2>
-        {flowState === 'deployed' && (
-          <>
+          </section>
+        </>
+      )}
+      {/* <hr className='dark:opacity-30 border-none max-w-2xl mx-auto h-[2px] dark:bg-white bg-[repeating-linear-gradient(90deg,#000,#000_6px,transparent_6px,transparent_12px)] dark:bg-[repeating-linear-gradient(90deg,#111827,#111827_6px,transparent_6px,transparent_12px)]' /> */}
+      {flowState === 'deployed' && (
+        <>
+          <section className='mt-12 mb-6 max-w-2xl mx-auto'>
+            <h2 className='mt-6 mb-10 text-4xl font-bold text-center'>
+              Set Recovery Details
+            </h2>
             {recData && (
               <div className='mb-6 p-4 border-2 border-slate-500 dark:border-slate-700 rounded-xl bg-white dark:bg-transparent opacity-70'>
                 <h2 className='mb-4 text-4xl font-bold text-center'>
@@ -397,9 +401,9 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
                 {recTxt}
               </button>
             </form>
-          </>
-        )}
-      </section>
+          </section>
+        </>
+      )}
     </main>
   );
 };
