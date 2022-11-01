@@ -33,6 +33,10 @@ function App({ contract, currentUser, wallet, nearConnection }) {
 
   const signOut = () => {
     wallet.signOut();
+    window.localStorage.removeItem('myKeyPair');
+    window.localStorage.removeItem(
+      `near-api-js:keystore:${currentUser.accountId}:testnet`
+    );
     window.location.replace(window.location.origin + window.location.pathname);
   };
 

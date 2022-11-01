@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const Reload = ({ acc, wallet }) => {
+const Reload = () => {
   useEffect(() => {
     // wait for 1 seconds and reload the page
     setTimeout(() => {

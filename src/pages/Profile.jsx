@@ -50,27 +50,6 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
         progress: undefined,
       });
     });
-
-    // fetch(wasm)
-    //   .then((r) => r.blob())
-    //   .then(async (blob) => {
-    //     const wasmArrayBuffer = await blob.arrayBuffer();
-    //     const wasmUint8Array = new Uint8Array(wasmArrayBuffer);
-    //     const response = await nearAccount.deployContract(wasmUint8Array);
-    //     console.log(response);
-    //     setDeployedState('ours');
-    //     setFlowState('deployed');
-    //     setDeployTxt('Deployed ✅');
-    //     toast.success(`Contract deployed successfully`, {
-    //       position: 'bottom-right',
-    //       autoClose: 5000,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     });
-    //   });
   };
 
   const setRecoveryData = async () => {
@@ -126,7 +105,7 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
           ...recData,
           recoveryAccount: recAcc,
           recoveryDate: recDateSecs,
-          isRecovered: recData?.isRecovered || 'false',
+          isRecovered: 'false',
         });
       })
       .catch((err) => {
@@ -188,7 +167,7 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
         if (response.code_hash === '11111111111111111111111111111111') {
           setDeployedState('empty');
         } else if (
-          response.code_hash === 'EZSuShZDU3Vbzanwt17xdfqRoWdJnqzZpkAYNN8AqhN7'
+          response.code_hash === '3keaJGywVHExoSFznhuCL4rBMLbzyDPaN4Wjx6GwkXWZ'
         ) {
           setDeployedState('ours');
           setFlowState('deployed');
@@ -207,10 +186,20 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
       <ol className='items-center md:flex'>
         <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
           <div className='flex items-center'>
-            <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-300 rounded-full ring-0 ring-white dark:bg-primary-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
-              1
-            </div>
-            <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            {flowState === 'begin' ? (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
+                1
+              </div>
+            ) : (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>
+                1
+              </div>
+            )}
+            {flowState === 'begin' ? (
+              <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            ) : (
+              <div className='hidden sm:flex w-full bg-primary-500 h-0.5 dark:bg-primary-700'></div>
+            )}
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
@@ -225,10 +214,20 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
         </li>
         <li className='relative mb-6 sm:mb-0  flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
           <div className='flex items-center mt-3 md:mt-0'>
-            <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-300 rounded-full ring-0 ring-white dark:bg-primary-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
-              2
-            </div>
-            <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            {flowState === 'begin' || flowState === 'signed' ? (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
+                2
+              </div>
+            ) : (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>
+                2
+              </div>
+            )}
+            {flowState === 'begin' || flowState === 'signed' ? (
+              <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            ) : (
+              <div className='hidden sm:flex w-full bg-primary-500 h-0.5 dark:bg-primary-700'></div>
+            )}
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
@@ -248,10 +247,20 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
         </li>
         <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
           <div className='flex items-center mt-3 md:mt-0'>
-            <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-300 rounded-full ring-0 ring-white dark:bg-primary-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
-              3
-            </div>
-            <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            {flowState === 'deployed' && deployedState === 'ours' ? (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>
+                3
+              </div>
+            ) : (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
+                3
+              </div>
+            )}
+            {flowState === 'deployed' && deployedState === 'ours' ? (
+              <div className='hidden sm:flex w-full bg-primary-500 h-0.5 dark:bg-primary-700'></div>
+            ) : (
+              <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            )}
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
@@ -275,7 +284,6 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
               disabled={flowState !== 'begin'}
               className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
               onClick={() => {
-                setFlowState('signed');
                 loginFull();
               }}>
               {flowState === 'begin' ? 'Sign in with NEAR' : 'Signed In'}

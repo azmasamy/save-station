@@ -34,18 +34,21 @@ const Recover = ({ wallet, acc, nearConnection }) => {
 
     if (!isFound) return;
 
-    await nearConnection.account(accountID).then((account) => {
-      account
-        .state()
-        .then(() => {
-          window.localStorage.setItem('accountID', accountID);
-          wallet.requestSignIn({
-            contractId: accountID,
-            successUrl: window.location.origin + '/#/redirect2',
-          });
-        })
-        .catch((err) => {});
+    window.localStorage.setItem('accountID', accountID);
+
+    wallet.requestSignIn({
+      contractId: accountID,
+      successUrl: window.location.origin + '/#/redirect2',
+      failureUrl: window.location.origin + '/#/redirect2',
     });
+
+    // const link = `https://wallet.testnet.near.org/login/?success_url=${
+    //   window.location.origin + '/%23%0A/redirect2/'
+    // }&failure_url=${
+    //   window.location.origin + '/%23%0A/redirect2/'
+    // }&contract_id=${accountID}`;
+
+    // window.location.href = link;
   };
 
   const recoverAccount = async () => {
@@ -69,6 +72,8 @@ const Recover = ({ wallet, acc, nearConnection }) => {
 
     const recoveredAccount = window.localStorage.getItem('accountID');
 
+    const modifiedPubKey = myPublicKey.replace('ed25519:', '');
+
     nearAccount
       .signAndSendTransaction({
         receiverId: recoveredAccount,
@@ -76,7 +81,8 @@ const Recover = ({ wallet, acc, nearConnection }) => {
           transactions.functionCall(
             'recoverAccount',
             {
-              publicKey: myPublicKey,
+              // publicKey: myPublicKey,
+              publicKey: modifiedPubKey,
             },
             30000000000000,
             0
@@ -141,15 +147,25 @@ const Recover = ({ wallet, acc, nearConnection }) => {
       <ol className='items-center md:flex'>
         <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
           <div className='flex items-center'>
-            <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-300 rounded-full ring-0 ring-white dark:bg-primary-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
-              1
-            </div>
-            <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            {flowState === 'begin' ? (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
+                1
+              </div>
+            ) : (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>
+                1
+              </div>
+            )}
+            {flowState === 'begin' ? (
+              <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            ) : (
+              <div className='hidden sm:flex w-full bg-primary-500 h-0.5 dark:bg-primary-700'></div>
+            )}
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
               Login to Account{' '}
-              {/* <span>{flowState !== 'begin' ? '✅' : '⏳'}</span> */}
+              <span>{flowState !== 'begin' ? '✅' : '⏳'}</span>
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -159,19 +175,28 @@ const Recover = ({ wallet, acc, nearConnection }) => {
         </li>
         <li className='relative mb-6 sm:mb-0  flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
           <div className='flex items-center mt-3 md:mt-0'>
-            <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-300 rounded-full ring-0 ring-white dark:bg-primary-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
-              2
-            </div>
-            <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            {flowState === 'signed' || flowState === 'begin' ? (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
+                2
+              </div>
+            ) : (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>
+                2
+              </div>
+            )}
+            {flowState === 'signed' || flowState === 'begin' ? (
+              <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            ) : (
+              <div className='hidden sm:flex w-full bg-primary-500 h-0.5 dark:bg-primary-700'></div>
+            )}
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
               Request Recovery{' '}
               <span>
-                {/* {(flowState === 'deployed' && deployedState === 'ours') ||
-                flowState === 'deployed'
+                {flowState === 'signed' || flowState === 'recovered'
                   ? '✅'
-                  : '⏳'} */}
+                  : '⏳'}
               </span>
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
@@ -182,15 +207,25 @@ const Recover = ({ wallet, acc, nearConnection }) => {
         </li>
         <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
           <div className='flex items-center mt-3 md:mt-0'>
-            <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-300 rounded-full ring-0 ring-white dark:bg-primary-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
-              3
-            </div>
-            <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            {flowState === 'recovered' ? (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>
+                3
+              </div>
+            ) : (
+              <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
+                3
+              </div>
+            )}
+            {flowState === 'recovered' ? (
+              <div className='hidden sm:flex w-full bg-primary-500 h-0.5 dark:bg-primary-700'></div>
+            ) : (
+              <div className='hidden sm:flex w-full bg-gray-200 h-0.5 dark:bg-gray-700'></div>
+            )}
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-              Get Recovery Link
-              {/* <span>{recData ? '✅' : '⏳'}</span> */}
+              Get Recovery Link{' '}
+              <span>{flowState === 'recovered' ? '✅' : '⏳'}</span>
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -267,14 +302,21 @@ const Recover = ({ wallet, acc, nearConnection }) => {
               <span className='font-medium'>Warning!</span> Don't share this
               link with anyone
             </div>
+            <p
+              onClick={() => {
+                navigator.clipboard.writeText(recLink);
+              }}
+              className='border-2 p-2'
+              style={{ wordBreak: 'break-all' }}>
+              {recLink}
+            </p>
             <a
               href={recLink}
               target='_blank'
               rel='noreferrer'
-              style={{ wordBreak: 'break-all' }}
               // className='truncate'
             >
-              {recLink}
+              Recover Account
             </a>
           </section>
         </>

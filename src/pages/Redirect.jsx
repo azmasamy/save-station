@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const Reload = ({ acc, wallet }) => {
+const Reload = () => {
   useEffect(() => {
     // get 'account_id' from URL
     const urlParams = new URLSearchParams(window.location.search);
