@@ -67,10 +67,26 @@ const Recover = ({ wallet, acc, nearConnection }) => {
     const myPublicKey = myKeyPair.getPublicKey().toString();
     const myPrivateKey = myKeyPair.toString();
 
+    const recoveredAccount = window.localStorage.getItem('accountID');
+
+    let oldKeys = [];
+
+    const response = await nearConnection.connection.provider.query({
+      request_type: 'view_access_key_list',
+      finality: 'final',
+      account_id: recoveredAccount,
+    });
+
+    response.keys.forEach((key) => {
+      if (key.access_key.permission === 'FullAccess') {
+        oldKeys.push(key.public_key.replace('ed25519:', ''));
+      }
+    });
+
+    // console.log(oldKeys);
+
     const nearAccount = await nearConnection.account();
     nearAccount.accountId = acc.accountId;
-
-    const recoveredAccount = window.localStorage.getItem('accountID');
 
     const modifiedPubKey = myPublicKey.replace('ed25519:', '');
 
@@ -82,7 +98,8 @@ const Recover = ({ wallet, acc, nearConnection }) => {
             'recoverAccount',
             {
               // publicKey: myPublicKey,
-              publicKey: modifiedPubKey,
+              newFullAccessKey: modifiedPubKey,
+              oldFullAccessKeys: oldKeys,
             },
             30000000000000,
             0
@@ -143,7 +160,9 @@ const Recover = ({ wallet, acc, nearConnection }) => {
 
   return (
     <main className='max-w-screen-lg px-4 py-8 md:py-28 mx-auto relative'>
-      <h2 className='mb-10 text-4xl font-bold text-center'>How it works</h2>
+      <h2 className='mb-10 text-4xl font-bold text-center'>
+        Recover Your Account
+      </h2>
       <ol className='items-center md:flex'>
         <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
           <div className='flex items-center'>

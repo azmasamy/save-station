@@ -182,7 +182,9 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
 
   return (
     <main className='max-w-screen-lg px-6 py-8 md:px-8 md:py-16 mx-auto relative'>
-      <h2 className='mb-10 text-4xl font-bold text-center'>How it works</h2>
+      <h2 className='mb-10 text-4xl font-bold text-center'>
+        Setup Recovery Contract
+      </h2>
       <ol className='items-center md:flex'>
         <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
           <div className='flex items-center'>
