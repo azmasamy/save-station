@@ -103,7 +103,7 @@ const Recover = ({ wallet, acc, nearConnection }) => {
         setRecLink(
           `https://wallet.testnet.near.org/auto-import-secret-key#${recoveredAccount}/${myPrivateKey}`
         );
-        setFlowState('recovered');
+        setFlowState('requested');
       })
       .catch((err) => {
         console.log(err);
@@ -194,9 +194,7 @@ const Recover = ({ wallet, acc, nearConnection }) => {
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
               Request Recovery{' '}
               <span>
-                {flowState === 'signed' || flowState === 'recovered'
-                  ? '✅'
-                  : '⏳'}
+                {flowState === 'signed' || flowState === ' begin' ? '⏳' : '✅'}
               </span>
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
@@ -224,7 +222,7 @@ const Recover = ({ wallet, acc, nearConnection }) => {
           </div>
           <div className='mt-3 sm:pr-8'>
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-              Get Recovery Link{' '}
+              Recover Account{' '}
               <span>{flowState === 'recovered' ? '✅' : '⏳'}</span>
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
@@ -293,31 +291,46 @@ const Recover = ({ wallet, acc, nearConnection }) => {
       {recLink && (
         <>
           <section className='flex flex-col max-w-2xl mx-auto my-14'>
-            <h2 className='text-4xl font-bold text-center'>
-              Get Recovery Link{' '}
-            </h2>
+            <h2 className='text-4xl font-bold text-center'>Recover Account </h2>
             <div
               className='mt-6 p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800'
               role='alert'>
               <span className='font-medium'>Warning!</span> Don't share this
               link with anyone
             </div>
-            <p
+            <div className='relative' title='Click to copy'>
+              <p
+                onClick={() => {
+                  navigator.clipboard.writeText(recLink);
+                }}
+                className='border-[1px] p-2 pr-7 rounded-lg cursor-default'
+                style={{ wordBreak: 'break-all' }}>
+                {recLink}
+              </p>
+              <svg
+                className='w-6 h-6 absolute right-1 top-1'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'>
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='1.5'
+                  d='M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2'></path>
+              </svg>
+            </div>
+            <button
+              className='mt-3 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
               onClick={() => {
-                navigator.clipboard.writeText(recLink);
+                setFlowState('recovered');
+                //go to recLink in new Tab
+                window.open(recLink, '_blank');
               }}
-              className='border-2 p-2'
-              style={{ wordBreak: 'break-all' }}>
-              {recLink}
-            </p>
-            <a
-              href={recLink}
               target='_blank'
-              rel='noreferrer'
-              // className='truncate'
-            >
+              rel='noreferrer'>
               Recover Account
-            </a>
+            </button>
           </section>
         </>
       )}
