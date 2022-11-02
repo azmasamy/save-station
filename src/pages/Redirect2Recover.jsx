@@ -4,7 +4,11 @@ const Reload = () => {
   useEffect(() => {
     // wait for 1 seconds and reload the page
     setTimeout(() => {
-      window.location.replace(window.location.origin + '/#/recover/');
+      window.location.replace(
+        window.location.origin + window.location.pathname + '#/recover'
+      );
+
+      // window.location.replace(window.location.origin + '/#/recover/');
     }, 1000);
   }, []);
 

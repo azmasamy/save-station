@@ -4,7 +4,7 @@ import { transactions } from 'near-api-js';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-const Recover = ({ wallet, acc, nearConnection }) => {
+const Recover = ({ wallet, acc, nearConnection, signIn }) => {
   const [accountID, setAccountID] = useState('');
   const [btnTxt, setBtnTxt] = useState('Recover Account');
   const [recLink, setRecLink] = useState('');
@@ -36,11 +36,7 @@ const Recover = ({ wallet, acc, nearConnection }) => {
 
     window.localStorage.setItem('accountID', accountID);
 
-    wallet.requestSignIn({
-      contractId: accountID,
-      successUrl: window.location.origin + '/#/redirect2',
-      failureUrl: window.location.origin + '/#/redirect2',
-    });
+    signIn(accountID);
 
     // const link = `https://wallet.testnet.near.org/login/?success_url=${
     //   window.location.origin + '/%23%0A/redirect2/'
@@ -101,7 +97,7 @@ const Recover = ({ wallet, acc, nearConnection }) => {
               newFullAccessKey: modifiedPubKey,
               oldFullAccessKeys: oldKeys,
             },
-            30000000000000,
+            300000000000000,
             0
           ),
         ],
@@ -213,7 +209,7 @@ const Recover = ({ wallet, acc, nearConnection }) => {
             <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
               Request Recovery{' '}
               <span>
-                {flowState === 'signed' || flowState === ' begin' ? '⏳' : '✅'}
+                {flowState === 'signed' || flowState === 'begin' ? '⏳' : '✅'}
               </span>
             </h3>
             <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
@@ -321,8 +317,9 @@ const Recover = ({ wallet, acc, nearConnection }) => {
               <p
                 onClick={() => {
                   navigator.clipboard.writeText(recLink);
+                  toast.success('Copied to clipboard');
                 }}
-                className='border-[1px] p-2 pr-7 rounded-lg cursor-default'
+                className='border-[1px] p-2 pr-7 rounded-lg cursor-pointer'
                 style={{ wordBreak: 'break-all' }}>
                 {recLink}
               </p>

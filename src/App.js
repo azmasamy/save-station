@@ -31,6 +31,14 @@ function App({ contract, currentUser, wallet, nearConnection }) {
     window.location.href = link;
   };
 
+  const signIn = (contract) => {
+    wallet.requestSignIn(
+      contract,
+      'Save Station',
+      window.location.origin + '/#/redirect2'
+    );
+  };
+
   const signOut = () => {
     wallet.signOut();
     window.localStorage.removeItem('myKeyPair');
@@ -64,6 +72,7 @@ function App({ contract, currentUser, wallet, nearConnection }) {
               exact
               element={
                 <Recover
+                  signIn={signIn}
                   acc={currentUser}
                   wallet={wallet}
                   nearConnection={nearConnection}

@@ -130,16 +130,23 @@ const Profile = ({ loginFull, acc, nearConnection }) => {
         const nearAccount = await nearConnection.account();
         nearAccount.accountId = acc.accountId;
 
+        let myDate;
+
         nearAccount
           .viewFunction(acc.accountId, 'viewRecoveryState', {})
           .then((res) => {
+            try {
+              myDate = new Date(
+                parseInt(res?.recoveryDate || 1666828800) * 1000
+              )
+                .toISOString()
+                .split('T')[0];
+            } catch {
+              myDate = new Date().toISOString().split('T')[0];
+            }
             setRecData(res);
             setRecAcc(res?.recoveryAccount);
-            setRecDate(
-              new Date(parseInt(res?.recoveryDate || 1666828800) * 1000)
-                .toISOString()
-                .split('T')[0]
-            );
+            setRecDate(myDate);
           })
           .catch((err) => {});
       };
