@@ -32,15 +32,16 @@ function App({ contract, currentUser, wallet, nearConnection }) {
   };
 
   const signIn = (contract) => {
-    wallet.requestSignIn(
-      contract,
-      'Save Station',
-      window.location.origin + '/#/redirect2'
-    );
+    wallet.requestSignIn({
+      contractId: contract,
+      successUrl: window.location.origin + '/#/recover?reload=true',
+    });
   };
 
   const signOut = () => {
     wallet.signOut();
+    window.localStorage.removeItem('recovery_link');
+    window.localStorage.removeItem('save_station');
     window.localStorage.removeItem('myKeyPair');
     window.localStorage.removeItem(
       `near-api-js:keystore:${currentUser.accountId}:testnet`
@@ -54,12 +55,13 @@ function App({ contract, currentUser, wallet, nearConnection }) {
         <div className='app-bg dark:bg-none min-h-screen dark:bg-gray-900 text-black dark:text-white relative'>
           <Navbar logout={signOut} acc={currentUser} />
           <Routes>
-            <Route path='/' exact element={<Home />} />
+            <Route path='/' exact element={<Home signOut={signOut} />} />
             <Route
               path='/profile'
               exact
               element={
                 <Profile
+                  logout={signOut}
                   wallet={wallet}
                   loginFull={signInFullAccess}
                   acc={currentUser}
@@ -72,6 +74,7 @@ function App({ contract, currentUser, wallet, nearConnection }) {
               exact
               element={
                 <Recover
+                  logout={signOut}
                   signIn={signIn}
                   acc={currentUser}
                   wallet={wallet}

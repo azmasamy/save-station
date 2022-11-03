@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Home = ({ signOut }) => {
   return (
     <main className='max-w-screen-lg px-4 py-8 md:pt-24 md:pb-16 mx-auto relative'>
       <div className='w-[500px] h-[500px] absolute bg-primary-600 bg-opacity-25 rounded-full overflow-hidden blur-3xl -right-10 top-16 z-[1]'></div>
@@ -22,7 +22,7 @@ const Home = () => {
             <Link
               to='/profile'
               className='inline-block text-white bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-800 font-medium rounded-lg px-5 py-2.5 text-center'>
-              Set Recovery Contract
+              Backup Account
             </Link>
             <Link
               to='/recover'

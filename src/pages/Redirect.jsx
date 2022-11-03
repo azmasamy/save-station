@@ -6,6 +6,8 @@ const Reload = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const accountId = urlParams.get('account_id');
 
+    window.localStorage.setItem('save_station', 'setup');
+
     const kpJSON = window.localStorage.getItem('myKeyPair');
     window.localStorage.setItem(
       `near-api-js:keystore:${accountId}:testnet`,

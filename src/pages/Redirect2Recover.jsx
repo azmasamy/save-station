@@ -2,10 +2,14 @@ import React, { useEffect } from 'react';
 
 const Reload = () => {
   useEffect(() => {
+    window.localStorage.setItem('save_station', 'recover');
+
     // wait for 1 seconds and reload the page
     setTimeout(() => {
       window.location.replace(
-        window.location.origin + window.location.pathname + '#/recover'
+        window.location.origin +
+          window.location.pathname +
+          '#/recover?reload=true'
       );
 
       // window.location.replace(window.location.origin + '/#/recover/');
