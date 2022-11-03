@@ -155,7 +155,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
             setRecAcc(res?.recoveryAccount);
             setRecDate(myDate);
           })
-          .catch((err) => {});
+          .catch((err) => { });
       };
 
       try {
@@ -233,12 +233,11 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
               </div>
               <div className='mt-3 sm:pr-8'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Sign in with NEAR{' '}
+                  Login with NEAR{' '}
                   <span>{flowState !== 'begin' ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Voluptate, et!
+                  login with your near account to a completly secure account that is locked, doesn't have a smart contract, and no one can access it.
                 </p>
               </div>
             </li>
@@ -261,17 +260,16 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
               </div>
               <div className='mt-3 sm:pr-8'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Deploy the Contract{' '}
+                  Deploy Backup Contract{' '}
                   <span>
                     {(flowState === 'deployed' && deployedState === 'ours') ||
-                    flowState === 'deployed'
+                      flowState === 'deployed'
                       ? '✅'
                       : '⏳'}
                   </span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Numquam, ullam.
+                  Deploy a special smart contract that allows you to recover your account through another NEAR account even if you've lost access to it.
                 </p>
               </div>
             </li>
@@ -294,11 +292,10 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
               </div>
               <div className='mt-3 sm:pr-8'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Set Recovery Details <span>{recData ? '✅' : '⏳'}</span>
+                  Set Backup Details <span>{recData ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Recusandae, sed?
+                  Set the the NEAR recovery account that will be able to recover your account after a backup date you specify.
                 </p>
               </div>
             </li>
@@ -308,7 +305,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
             <>
               <section className='flex flex-col max-w-2xl mx-auto my-14'>
                 <h2 className='text-4xl font-bold text-center'>
-                  Sign in with NEAR
+                  Login with NEAR
                 </h2>
                 <button
                   disabled={flowState !== 'begin'}
@@ -316,7 +313,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
                   onClick={() => {
                     loginFull();
                   }}>
-                  {flowState === 'begin' ? 'Sign in with NEAR' : 'Signed In'}
+                  {flowState === 'begin' ? 'Login with NEAR' : 'Signed In'}
                 </button>
               </section>
             </>

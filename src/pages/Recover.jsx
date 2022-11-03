@@ -48,7 +48,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
         .then((res) => {
           setRecData(res);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     };
     if (flowState === 'signed') {
       checkRecData();
@@ -232,7 +232,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
       ) : (
         <>
           <h2 className='mb-10 text-4xl font-bold text-center'>
-            Recover Your Account
+            Recover Account
           </h2>
           <ol className='items-center md:flex'>
             <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
@@ -258,8 +258,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                   <span>{flowState !== 'begin' ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Voluptate, et!
+                  Login to the backed-up account you want to recover.
                 </p>
               </div>
             </li>
@@ -290,8 +289,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                   </span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Numquam, ullam.
+                  Request a magical link that lets you recover the backed-up account.
                 </p>
               </div>
             </li>
@@ -318,8 +316,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                   <span>{flowState === 'recovered' ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Recusandae, sed?
+                  Recover the account through the magical link.
                 </p>
               </div>
             </li>
@@ -337,7 +334,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                       <label
                         htmlFor='account'
                         className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300'>
-                        Account ID
+                        Backed-up Account ID
                       </label>
                       <input
                         type='text'

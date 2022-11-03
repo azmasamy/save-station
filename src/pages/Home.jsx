@@ -7,16 +7,20 @@ const Home = ({ signOut }) => {
       <div className='flex flex-col-reverse gap-4 md:flex-row justify-between items-center mb-36'>
         <div className='space-y-5'>
           <h2 className='text-5xl font-bold max-w-[18ch] leading-tight'>
-            {/* Lorem ipsum dolor{' '} */}
             <span className='text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-primary-700'>
               Save Station
-            </span>{' '}
-            sit amet consectetur.
+            </span>{'\n'}
+            KEEPS YOU ALIVE!
           </h2>
           <p className='font-light opacity-70 max-w-[55ch] pb-3'>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem
-            perferendis vel beatae error a. Qui reprehenderit perferendis amet
-            quam optio.
+            Never lose your NEAR account ever again!
+            Save Station allows you to backup your account and recover it using another near account that you specify.
+            <br></br>
+            <br></br>
+            All you have to do is login with your near account to a completly secure account that is locked, doesn't have a smart contract, and no one can access it and follow the backup steps.
+            <br></br>
+            <br></br>
+            If you ever lose access to your account you can recover it using the other account you specified by following the recovery steps.
           </p>
           <div className='space-x-4'>
             <Link
