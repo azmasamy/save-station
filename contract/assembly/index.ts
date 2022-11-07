@@ -75,7 +75,7 @@ export class Contract {
     return context.blockTimestamp;
   }
 
-  private blockTimestampInSeconds() {
-    return context.blockTimestamp / 1000000;
+  private blockTimestampInSeconds(): u64 {
+    return (context.blockTimestamp / 1000000) as u64;
   }
 }
