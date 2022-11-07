@@ -411,7 +411,8 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                   className='mt-6 p-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800'
                   role='alert'>
                   <span className='font-medium'>Warning! </span>
-                  Any old keys associated with the account will be removed
+                  Any old full-access keys associated with the account will be
+                  removed
                 </div>
                 <button
                   className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
