@@ -48,7 +48,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
         .then((res) => {
           setRecData(res);
         })
-        .catch((err) => { });
+        .catch((err) => {});
     };
     if (flowState === 'signed') {
       checkRecData();
@@ -235,7 +235,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
             Recover Account
           </h2>
           <ol className='items-center md:flex'>
-            <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
+            <li className='w-full relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
               <div className='flex items-center'>
                 {flowState === 'begin' ? (
                   <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
@@ -262,7 +262,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                 </p>
               </div>
             </li>
-            <li className='relative mb-6 sm:mb-0  flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
+            <li className='w-full relative mb-6 sm:mb-0  flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
               <div className='flex items-center mt-3 md:mt-0'>
                 {flowState === 'signed' || flowState === 'begin' ? (
                   <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
@@ -289,11 +289,12 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                   </span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Request a magical link that lets you recover the backed-up account.
+                  Request a magical link that lets you recover the backed-up
+                  account.
                 </p>
               </div>
             </li>
-            <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
+            <li className='w-full relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
               <div className='flex items-center mt-3 md:mt-0'>
                 {flowState === 'recovered' ? (
                   <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>

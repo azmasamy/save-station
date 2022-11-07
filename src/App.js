@@ -55,7 +55,7 @@ function App({ contract, currentUser, wallet, nearConnection }) {
         <div className='app-bg dark:bg-none min-h-screen dark:bg-gray-900 text-black dark:text-white relative'>
           <Navbar logout={signOut} acc={currentUser} />
           <Routes>
-            <Route path='/' exact element={<Home signOut={signOut} />} />
+            <Route path='/' exact element={<Home />} />
             <Route
               path='/profile'
               exact

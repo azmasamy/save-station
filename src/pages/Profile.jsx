@@ -155,7 +155,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
             setRecAcc(res?.recoveryAccount);
             setRecDate(myDate);
           })
-          .catch((err) => { });
+          .catch((err) => {});
       };
 
       try {
@@ -214,7 +214,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
             Backup Account
           </h2>
           <ol className='items-center md:flex'>
-            <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
+            <li className='w-full relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
               <div className='flex items-center'>
                 {flowState === 'begin' ? (
                   <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
@@ -237,11 +237,20 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
                   <span>{flowState !== 'begin' ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  login with your near account to a completly secure account that is locked, doesn't have a smart contract, and no one can access it.
+                  login with your near account to a completly secure account
+                  that is{' '}
+                  <a
+                    target='_blank'
+                    rel='noreferrer'
+                    className='underline underline-offset-2 decoration-1'
+                    href='https://explorer.testnet.near.org/accounts/savestation.testnet'>
+                    locked
+                  </a>
+                  , doesn't have a smart contract, and no one can access it.
                 </p>
               </div>
             </li>
-            <li className='relative mb-6 sm:mb-0  flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
+            <li className='w-full relative mb-6 sm:mb-0  flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
               <div className='flex items-center mt-3 md:mt-0'>
                 {flowState === 'begin' || flowState === 'signed' ? (
                   <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
@@ -263,17 +272,19 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
                   Deploy Backup Contract{' '}
                   <span>
                     {(flowState === 'deployed' && deployedState === 'ours') ||
-                      flowState === 'deployed'
+                    flowState === 'deployed'
                       ? '✅'
                       : '⏳'}
                   </span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Deploy a special smart contract that allows you to recover your account through another NEAR account even if you've lost access to it.
+                  Deploy a special smart contract that allows you to recover
+                  your account through another NEAR account even if you've lost
+                  access to it.
                 </p>
               </div>
             </li>
-            <li className='relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
+            <li className='w-full relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
               <div className='flex items-center mt-3 md:mt-0'>
                 {recData ? (
                   <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>
@@ -295,7 +306,8 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
                   Set Backup Details <span>{recData ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Set the the NEAR recovery account that will be able to recover your account after a backup date you specify.
+                  Set the the NEAR recovery account that will be able to recover
+                  your account after a backup date you specify.
                 </p>
               </div>
             </li>
