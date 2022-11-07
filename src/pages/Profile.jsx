@@ -279,8 +279,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
                   Deploy a special smart contract that allows you to recover
-                  your account through another NEAR account even if you've lost
-                  access to it.
+                  your account through another NEAR account.
                 </p>
               </div>
             </li>
