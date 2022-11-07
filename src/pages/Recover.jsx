@@ -83,7 +83,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
     });
 
     let isOurs = false;
-    if (response.code_hash === 'AiXzq3FyiQuVyNJ171qJB8ai4dA5iRP3eb32Ha59Utdy') {
+    if (response.code_hash === '3AMXkV2PnP4Qni26dZLK7XijGfiBgyqBvPC9fvzHaX77') {
       isOurs = true;
     } else {
       isOurs = false;

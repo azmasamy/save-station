@@ -181,7 +181,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
         if (response.code_hash === '11111111111111111111111111111111') {
           setDeployedState('empty');
         } else if (
-          response.code_hash === 'AiXzq3FyiQuVyNJ171qJB8ai4dA5iRP3eb32Ha59Utdy'
+          response.code_hash === '3AMXkV2PnP4Qni26dZLK7XijGfiBgyqBvPC9fvzHaX77'
         ) {
           setDeployedState('ours');
           setFlowState('deployed');
