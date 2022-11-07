@@ -408,20 +408,28 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                   </div>
                 )}
                 <div
-                  className='mt-6 p-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800'
+                  className='mt-6 p-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800'
                   role='alert'>
                   <span className='font-medium'>Warning! </span>
                   Any old full-access keys associated with the account will be
                   removed
                 </div>
-                <button
-                  className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
-                  onClick={() => {
-                    recoverAccount();
-                    setFlowState('requested');
-                  }}>
-                  {btnTxt}
-                </button>
+                {recData?.isRecovered ? (
+                  <button
+                    disabled
+                    className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'>
+                    This account has already been recovered
+                  </button>
+                ) : (
+                  <button
+                    className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+                    onClick={() => {
+                      recoverAccount();
+                      setFlowState('requested');
+                    }}>
+                    {btnTxt}
+                  </button>
+                )}
               </section>
             </>
           )}
