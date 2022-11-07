@@ -7,7 +7,7 @@ Allow another account to gain access to yours when you are dead! or if you lose 
 ## NEAR Account Backup Steps
 ```mermaid
 graph LR
-A(Login with NEAR) --> B(Deploy Backup Contract) --> C(Recover Account)
+A(Login with NEAR) --> B(Deploy Backup Contract) --> C(Set Backup Details)
 ```
 ### 1-Login with NEAR
 SaveStation smart contract is  [locked](https://explorer.testnet.near.org/accounts/savestation.testnet), that means no one have access to your data even us, the developers. Login to start the backup process.
@@ -21,7 +21,7 @@ Set the the NEAR recovery account that will be able to recover your account afte
 ## NEAR Account Recovery Steps
 ```mermaid
 graph LR
-A(Login to the backed-up contract) --> B(Request Recovery Link) --> C(Set Backup Details)
+A(Login to the backed-up contract) --> B(Request Recovery Link) --> C(Recover Account)
 ```
 ### 1-Login to Account
 Request login to the backed-up account you want to recover.
