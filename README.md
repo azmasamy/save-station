@@ -1,66 +1,33 @@
-# Starter frontend template for NEAR projects
+# Save Sation
 
-## Features:
+**Never lose access to your account!**
 
-- Routing
-- Dark Theme toggler
-- Tailwind CSS
-- Redirect Page
+Allow another account to gain access to yours when you are dead! or if you lose access for any reason. 3 easy steps to  backup  and  recover.
 
-<hr/>
-
-## Things to change:
-
-### `NEAR/config.js` :
-
-1. Change contract name - line 1
-
-### `src/index.js` :
-
-1. Choose environment (testnet / mainnet) - line 14
-2. Add contract's functions (view & change) - lines 42,44
-
-### `src/App.js` :
-
-1. Change contract name at sign in method - line 14
-
-### `public/index.html` :
-
-1. Change `<title>` tag - line 27
-2. Change description - line 10
-3. Change favicon.ico, logo192.png, and logo512.png
-
-<hr/>
-
-## Functions calling:
-
-- Pass the `contract` to any component, and then call `contract.myFunction()`
-
-- If it has any parameters, then `contract.myFunction({ arg1 : 'a', arg2 : 'b' })`
-
-- To get the hash of any transaction:
-
-```js
-// pass wallet to the component from App.js
-const resp = await wallet
-  .account()
-  .signAndSendTransaction({
-    receiverId: 'abcdefg.testnet',
-    actions: [
-      // import { transactions } from 'near-api-js';
-      transactions.functionCall(
-        'methodName',
-        {
-          arg1: id,
-          arg2: newOwner,
-        },
-        30000000000000, // 300 Tgas
-        0 // attached money
-      ),
-    ],
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-console.log(resp.transaction.hash); // gets the hash
+## NEAR Account Backup Steps
+```mermaid
+graph LR
+A(Login to a locked smart contract) --> B(Deploy Backup Contract) --> C(Set Backup Details)
 ```
+### 1-Login with NEAR
+SaveStation smart contract is  [locked](https://explorer.testnet.near.org/accounts/savestation.testnet), that means no one have access to your data even us, the developers. Login to start the backup process.
+
+ ### 2-Deploy Backup Contract
+SaveStation requires some code to be deployed into your account to allow the recovery process later. It's a click of a button.
+
+### 3-Set Backup Details
+Set the the NEAR recovery account that will be able to recover your account after a certain date you specify. You can change it anytime.
+
+## NEAR Account Recovery Steps
+```mermaid
+graph LR
+A(Login to the backed-up contract) --> B(Request Recovery Link) --> C(Set Backup Details)
+```
+### 1-Login to Account
+Request login to the backed-up account you want to recover.
+
+### 2-Request Recovery
+Request a magical link that lets you recover the backed-up account, only if you are allowed to.
+
+### 3-Recover Account
+Use the magical link to gain access to the backed-up account.
