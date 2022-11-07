@@ -213,7 +213,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
           <h2 className='mb-10 text-4xl font-bold text-center'>
             Backup Account
           </h2>
-          <ol className='items-center md:flex'>
+          <ol className='md:flex items-start justify-start'>
             <li className='w-full relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
               <div className='flex items-center'>
                 {flowState === 'begin' ? (

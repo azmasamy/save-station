@@ -43,6 +43,7 @@ function App({ contract, currentUser, wallet, nearConnection }) {
     window.localStorage.removeItem('recovery_link');
     window.localStorage.removeItem('save_station');
     window.localStorage.removeItem('myKeyPair');
+    window.localStorage.removeItem('ss_clicked');
     window.localStorage.removeItem(
       `near-api-js:keystore:${currentUser.accountId}:testnet`
     );

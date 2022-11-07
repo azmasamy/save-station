@@ -38,6 +38,9 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
       setFlowState('requested');
       setRecLink(window.localStorage.getItem('recovery_link'));
     }
+    if (window.localStorage.getItem('ss_clicked')) {
+      setFlowState('recovered');
+    }
     const recoveredAccount = window.localStorage.getItem('accountID');
 
     const checkRecData = async () => {
@@ -234,7 +237,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
           <h2 className='mb-10 text-4xl font-bold text-center'>
             Recover Account
           </h2>
-          <ol className='items-center md:flex'>
+          <ol className='md:flex items-start justify-start'>
             <li className='w-full relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
               <div className='flex items-center'>
                 {flowState === 'begin' ? (
@@ -262,7 +265,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                 </p>
               </div>
             </li>
-            <li className='w-full relative mb-6 sm:mb-0  flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
+            <li className='w-full relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
               <div className='flex items-center mt-3 md:mt-0'>
                 {flowState === 'signed' || flowState === 'begin' ? (
                   <div className='flex z-10 justify-center items-center w-6 h-6 bg-slate-300 rounded-full ring-0 ring-white dark:bg-slate-700 sm:ring-8 dark:ring-gray-900 shrink-0'>
@@ -473,6 +476,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                   className='mt-3 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
                   onClick={() => {
                     setFlowState('recovered');
+                    window.localStorage.setItem('ss_clicked', 'true');
                     window.open(recLink, '_blank');
                   }}
                   target='_blank'

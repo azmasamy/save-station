@@ -83,7 +83,7 @@ const Home = () => {
         ref={backupRef}>
         {/* <div className='w-[400px] h-[160px] absolute bg-primary-600 bg-opacity-25 rounded-full overflow-hidden blur-3xl left-[calc(50%-200px)] top-2 z-[1]'></div> */}
         <h2 className='text-4xl font-bold text-center'>Backup Steps</h2>
-        <ol className='items-center md:flex'>
+        <ol className='md:flex items-start justify-start'>
           <li className='w-full relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
             <div className='flex items-center'>
               <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>
@@ -168,7 +168,7 @@ const Home = () => {
         ref={recoveryRef}>
         {/* <div className='w-[400px] h-[160px] absolute bg-primary-600 bg-opacity-25 rounded-full overflow-hidden blur-3xl left-[calc(50%-200px)] top-2 z-[1]'></div> */}
         <h2 className='text-4xl font-bold text-center'>Recover Steps</h2>
-        <ol className='items-center md:flex'>
+        <ol className='md:flex items-start justify-start'>
           <li className='w-full relative mb-6 sm:mb-0 flex sm:block flex-col items-center text-center sm:items-start sm:text-left'>
             <div className='flex items-center'>
               <div className='flex z-10 justify-center items-center w-6 h-6 bg-primary-500 rounded-full ring-0 ring-white dark:bg-primary-700 text-white sm:ring-8 dark:ring-gray-900 shrink-0'>
