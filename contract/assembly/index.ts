@@ -35,7 +35,7 @@ export class Contract {
       'Access denied! only the account recovery account can recover the account.'
     );
     assert(
-      storage.getSome<u64>('recoveryDate') <= context.blockTimestamp,
+      storage.getSome<u64>('recoveryDate') <= this.blockTimestampInSeconds(),
       'Date not reached! recovery date was not reached yet.'
     );
     assert(
@@ -73,5 +73,9 @@ export class Contract {
 
   getCurrentTimestamp(): u64 {
     return context.blockTimestamp;
+  }
+
+  private blockTimestampInSeconds(): u64 {
+    return (context.blockTimestamp / 1000000000) as u64;
   }
 }

@@ -58,7 +58,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
           setRecData(res);
           console.log(res);
         })
-        .catch((err) => {});
+        .catch((err) => { });
     };
     if (flowState === 'signed') {
       checkRecData();
@@ -90,7 +90,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
     });
 
     let isOurs = false;
-    if (response.code_hash === 'GdAnSBMFXdvWHsrsMAqPNHZh6VDq4JEaiNj5s4Xf9E9d') {
+    if (response.code_hash === '3AMXkV2PnP4Qni26dZLK7XijGfiBgyqBvPC9fvzHaX77') {
       isOurs = true;
     } else {
       isOurs = false;
