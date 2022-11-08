@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { KeyPairEd25519 } from 'near-api-js/lib/utils';
 import { toast } from 'react-toastify';
 import { transactions } from 'near-api-js';
+import txt from '../utils/text.json';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -32,11 +33,15 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
       navigate('/recover');
       navigate(0);
     }
+  }, []);
+
+  useEffect(() => {
     // if recoveryDate hasn't come yet
     if (recData?.recoveryDate > Date.now()) setCantRecover('date');
-    if (recData?.isRecovered === 'true') setCantRecover('rec');
-    if (recData?.recoveryAccount !== acc?.accountId) setCantRecover('acc');
-  }, []);
+    else if (recData?.isRecovered === 'true') setCantRecover('rec');
+    else if (recData?.recoveryAccount !== acc?.accountId) setCantRecover('acc');
+    else setCantRecover('can');
+  }, [recData, acc]);
 
   useEffect(() => {
     if (acc) setFlowState('signed');
@@ -58,7 +63,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
           setRecData(res);
           console.log(res);
         })
-        .catch((err) => { });
+        .catch((err) => {});
     };
     if (flowState === 'signed') {
       checkRecData();
@@ -270,11 +275,11 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
               </div>
               <div className='mt-3 sm:pr-8'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Login to Account{' '}
+                  {txt.recover_1 + ' '}
                   <span>{flowState !== 'begin' ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Login to the backed-up account you want to recover.
+                  {txt.recover_1_details}
                 </p>
               </div>
             </li>
@@ -297,7 +302,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
               </div>
               <div className='mt-3 sm:pr-8'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Request Recovery{' '}
+                  {txt.recover_2 + ' '}
                   <span>
                     {flowState === 'signed' || flowState === 'begin'
                       ? '⏳'
@@ -305,8 +310,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                   </span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Request a magical link that lets you recover the backed-up
-                  account.
+                  {txt.recover_2_details}
                 </p>
               </div>
             </li>
@@ -329,11 +333,11 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
               </div>
               <div className='mt-3 sm:pr-8'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Recover Account{' '}
+                  {txt.recover_3 + ' '}
                   <span>{flowState === 'recovered' ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Recover the account through the magical link.
+                  {txt.recover_3_details}
                 </p>
               </div>
             </li>

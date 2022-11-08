@@ -4,8 +4,7 @@ import { getBlob, ref } from 'firebase/storage';
 import { storage } from '../utils/firebase';
 import { toast } from 'react-toastify';
 import { transactions } from 'near-api-js';
-
-// import wasm from '../wasm_files/near-recovery-key.wasm';
+import txt from '../utils/text.json';
 
 const Profile = ({ logout, loginFull, acc, nearConnection }) => {
   const [deployTxt, setDeployTxt] = useState('Deploy');
@@ -233,12 +232,11 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
               </div>
               <div className='mt-3 sm:pr-8'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Login with NEAR{' '}
+                  {txt.backup_1 + ' '}
                   <span>{flowState !== 'begin' ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  login with your near account to a completly secure account
-                  that is{' '}
+                  {txt.backup_1_details_a}
                   <a
                     target='_blank'
                     rel='noreferrer'
@@ -246,7 +244,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
                     href='https://explorer.testnet.near.org/accounts/savestation.testnet'>
                     locked
                   </a>
-                  , doesn't have a smart contract, and no one can access it.
+                  {txt.backup_1_details_b}
                 </p>
               </div>
             </li>
@@ -269,7 +267,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
               </div>
               <div className='mt-3 sm:pr-8'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Deploy Backup Contract{' '}
+                  {txt.backup_2 + ' '}
                   <span>
                     {(flowState === 'deployed' && deployedState === 'ours') ||
                     flowState === 'deployed'
@@ -278,8 +276,7 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
                   </span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Deploy a special smart contract that allows you to recover
-                  your account through another NEAR account.
+                  {txt.backup_2_details}
                 </p>
               </div>
             </li>
@@ -302,11 +299,10 @@ const Profile = ({ logout, loginFull, acc, nearConnection }) => {
               </div>
               <div className='mt-3 sm:pr-8'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Set Backup Details <span>{recData ? '✅' : '⏳'}</span>
+                  {txt.backup_3} <span>{recData ? '✅' : '⏳'}</span>
                 </h3>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                  Set the the NEAR recovery account that will be able to recover
-                  your account after a backup date you specify.
+                  {txt.backup_3_details}
                 </p>
               </div>
             </li>

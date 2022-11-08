@@ -1,0 +1,15 @@
+{
+  "backup_1": "Login with NEAR",
+  "backup_1_details_a": "SaveStation smart contract is ",
+  "backup_1_details_b": ", that means no one have access to your data even us, the developers. Login to start the backup process.",
+  "backup_2": "Deploy Backup Contract",
+  "backup_2_details": "SaveStation requires some code to be deployed into your account to allow the recovery process later. It's a click of a button.",
+  "backup_3": "Set Backup Details",
+  "backup_3_details": "Set the the NEAR recovery account that will be able to recover your account after a certain date you specify. You can change it anytime.",
+  "recover_1": "Login to Account",
+  "recover_1_details": "Request login to the backed-up account you want to recover.",
+  "recover_2": "Request Recovery",
+  "recover_2_details": "Request a magical link that lets you recover the backed-up account, only if you are allowed to.",
+  "recover_3": "Recover Account",
+  "recover_3_details": "Use the magical link to gain access to the backed-up account."
+}
