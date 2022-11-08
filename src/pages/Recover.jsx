@@ -22,6 +22,8 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
 
   const [why, setWhy] = useState('');
 
+  const [cantRecover, setCantRecover] = useState('can');
+
   useEffect(() => {
     setWhy(window.localStorage.getItem('save_station') || 'nth');
     if (reload) {
@@ -30,6 +32,10 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
       navigate('/recover');
       navigate(0);
     }
+    // if recoveryDate hasn't come yet
+    if (recData?.recoveryDate > Date.now()) setCantRecover('date');
+    if (recData?.isRecovered === 'true') setCantRecover('rec');
+    if (recData?.recoveryAccount !== acc?.accountId) setCantRecover('acc');
   }, []);
 
   useEffect(() => {
@@ -50,6 +56,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
         .viewFunction(recoveredAccount, 'viewRecoveryState', {})
         .then((res) => {
           setRecData(res);
+          console.log(res);
         })
         .catch((err) => {});
     };
@@ -105,6 +112,12 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
     // }&contract_id=${accountID}`;
 
     // window.location.href = link;
+  };
+
+  const errorMap = {
+    date: 'Recovery date has not come yet',
+    acc: 'This account is not the recovery account',
+    rec: 'This account has already been recovered',
   };
 
   const recoverAccount = async () => {
@@ -407,20 +420,27 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
                     </div>
                   </div>
                 )}
-                <div
-                  className='mt-6 p-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800'
-                  role='alert'>
-                  <span className='font-medium'>Warning! </span>
-                  Any old full-access keys associated with the account will be
-                  removed
-                </div>
+                {cantRecover === 'can' && (
+                  <div
+                    className='mt-6 p-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800'
+                    role='alert'>
+                    <span className='font-medium'>Warning! </span>
+                    Any old full-access keys associated with the account will be
+                    removed
+                  </div>
+                )}
                 <button
-                  className='mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+                  disabled={cantRecover !== 'can'}
+                  className={
+                    cantRecover !== 'can'
+                      ? 'mt-6 bg-gradient-to-r from-red-500 via-red-600 to-red-700 focus:ring-4 focus:outline-none text-white focus:ring-red-300 dark:focus:ring-red-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+                      : 'mt-6 bg-gradient-to-r from-primary-500 via-primary-600 to-primary-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none text-white focus:ring-primary-300 dark:focus:ring-primary-800 font-medium text-lg rounded-lg px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed'
+                  }
                   onClick={() => {
                     recoverAccount();
                     setFlowState('requested');
                   }}>
-                  {btnTxt}
+                  {cantRecover === 'can' ? btnTxt : errorMap[cantRecover]}
                 </button>
               </section>
             </>
