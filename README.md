@@ -12,6 +12,9 @@ A(1-Login with NEAR) --> B(2-Deploy Backup Contract) --> C(3-Set Backup Details)
 ### 1-Login with NEAR
 SaveStation smart contract is  [locked](https://explorer.testnet.near.org/accounts/savestation.testnet), that means no one have access to your data even us, the developers. Login to start the backup process.
 
+<img width="548" alt="image" src="https://user-images.githubusercontent.com/27410841/201858299-eee0b0fd-8416-4cc9-afdb-19f1f3ce0583.png">
+
+
  ### 2-Deploy Backup Contract
 SaveStation requires some code to be deployed into your account to allow the recovery process later. It's a click of a button.
 
