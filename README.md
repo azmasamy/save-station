@@ -2,7 +2,7 @@
 
 **Never lose access to your account!**
 
-Allow another account to gain access to yours when you are dead! or if you lose access for any reason. 3 easy steps to  backup  and  recover.
+Allow another account to gain access to yours when you are dead! or if you lose access for any reason. Backup and recovery in three simple steps.
 
 ## NEAR Account Backup Steps
 ```mermaid
