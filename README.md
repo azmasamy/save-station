@@ -10,14 +10,14 @@ graph LR
 A(1-Login with NEAR) --> B(2-Deploy Backup Contract) --> C(3-Set Backup Details)
 ```
 ### 1-Login with NEAR
-Login will ask you for a full access key. SaveStation smart contract is  [locked](https://explorer.testnet.near.org/accounts/savestation.testnet), that means no one have access to your data even us, the developers. We need the full access to be able to deploy the backup contract. 
+Login will ask you for a full access key. SaveStation smart contract is [locked](https://explorer.testnet.near.org/accounts/savestation.testnet), that means no one have access to your data even us, the developers. We need the full access to be able to deploy the backup contract. 
 
 <img width="548" alt="image" src="https://user-images.githubusercontent.com/27410841/201858299-eee0b0fd-8416-4cc9-afdb-19f1f3ce0583.png">
 
-You can view the contract details here.
+You can view the contract details [here](https://stats.gallery/testnet/savestation.testnet/contract?t=all).
 
  ### 2-Deploy Backup Contract
-SaveStation requires some code to be deployed into your account to allow the recovery process later. It's a click of a button. This is the contract we deploy to your account. 
+SaveStation requires some code to be deployed into your account to allow the recovery process later. It's a click of a button. [This is the contract we deploy to your account](https://github.com/azmasamy/save-station/blob/main/contracts/recovery_contract/assembly/index.ts). 
 
 ### 3-Set Backup Details
 Set the the NEAR recovery account that will be able to recover your account after a certain date you specify. You can change it anytime.
