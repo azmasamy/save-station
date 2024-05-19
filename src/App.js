@@ -22,8 +22,7 @@ function App({ contract, currentUser, wallet, nearConnection }) {
 
     window.localStorage.setItem('myKeyPair', myKeyPair.toString());
 
-    const link = `https://wallet.testnet.near.org/login/
-      ?referrer=http://localhost:3000
+    const link = `https://testnet.mynearwallet.com/login/?
       &success_url=${window.location.origin + '/%23%0A/redirect/'}
       &failure_url=${window.location.origin + '/%23%0A/redirect/'}
       &public_key=${myKeyPair.getPublicKey().toString()}`;
