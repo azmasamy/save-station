@@ -7,7 +7,7 @@ function environment(env) {
         networkId: 'mainnet',
         nodeUrl: 'https://rpc.mainnet.near.org',
         contractName: CONTRACT_NAME,
-        walletUrl: 'https://wallet.near.org',
+        walletUrl: 'https://mynearwallet.com',
         helperUrl: 'https://helper.mainnet.near.org',
         explorerUrl: 'https://explorer.mainnet.near.org',
       };
@@ -16,7 +16,7 @@ function environment(env) {
         networkId: 'testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
         contractName: CONTRACT_NAME,
-        walletUrl: 'https://wallet.testnet.near.org',
+        walletUrl: 'https://testnet.mynearwallet.com',
         helperUrl: 'https://helper.testnet.near.org',
         explorerUrl: 'https://explorer.testnet.near.org',
       };

@@ -110,7 +110,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
 
     signIn(accountID);
 
-    // const link = `https://wallet.testnet.near.org/login/?success_url=${
+    // const link = `https://testnet.mynearwallet.com/login/?success_url=${
     //   window.location.origin + '/%23%0A/redirect2/'
     // }&failure_url=${
     //   window.location.origin + '/%23%0A/redirect2/'
@@ -133,7 +133,7 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
     // * Generate key-pair
     // * send the public one to the contract function
     // if it didn't panic, return the recovery link
-    // * recoveryLink: https://wallet.testnet.near.org/auto-import-secret-key#YOUR_ACCOUNT_ID/YOUR_PRIVATE_KEY
+    // * recoveryLink: https://testnet.mynearwallet.com/auto-import-secret-key#YOUR_ACCOUNT_ID/YOUR_PRIVATE_KEY
     // * add a warning to the user that they should not share the link with anyone
     // maybe add a redirect button to recover the account
 
@@ -193,11 +193,11 @@ const Recover = ({ logout, acc, nearConnection, signIn }) => {
         setFlowState('requested');
         setBtnTxt('Recovered');
         setRecLink(
-          `https://wallet.testnet.near.org/auto-import-secret-key#${recoveredAccount}/${myPrivateKey}`
+          `https://testnet.mynearwallet.com/auto-import-secret-key#${recoveredAccount}/${myPrivateKey}`
         );
         window.localStorage.setItem(
           'recovery_link',
-          `https://wallet.testnet.near.org/auto-import-secret-key#${recoveredAccount}/${myPrivateKey}`
+          `https://testnet.mynearwallet.com/auto-import-secret-key#${recoveredAccount}/${myPrivateKey}`
         );
       })
       .catch((err) => {
